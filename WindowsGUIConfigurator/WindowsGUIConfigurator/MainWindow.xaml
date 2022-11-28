@@ -14,12 +14,13 @@
             <TabItem Header="Quick Access" FontSize="14">
                 <Grid Background="#FFE5E5E5">
                     <Button x:Name="btnControlPanel" Content="Control Panel" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
-                    <Button x:Name="btnPowerMgmt" Content="Power Mgmt" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
-                    <Button x:Name="btnNetworkInfo" Content="Network Settings" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
-                    <Button x:Name="btnNetworkInterfaces" Content="Network Interfaces" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnPowerMgmt" Content="Power Mgmt" HorizontalAlignment="Left" Margin="201,46,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnNetworkInfo" Content="Network Settings" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnNetworkInterfaces" Content="Network Interfaces" HorizontalAlignment="Left" Margin="201,81,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnSystem" Content="System" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
-                    <Button x:Name="btnTaskmgr" Content="TaskMgr" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
-                    <Button x:Name="btnWindowsUpdates" Content="Windows Updates" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnTaskmgr" Content="TaskMgr" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnWindowsUpdates" Content="Windows Updates" HorizontalAlignment="Left" Margin="201,116,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnSystemProperties" Content="System Properties" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Tools" FontSize="14">
