@@ -86,10 +86,16 @@ get-variable WPF*
  
 Get-FormVariables
  
+# FUNCTIONS
+
+function Download-Tool ($url, $output) {
+  Invoke-WebRequest -Uri $url -OutFile $output
+  }
+
 #===========================================================================
 # Use this space to add code to the various form elements in your GUI
 #===========================================================================
-                                                                    
+                                                                   
      
 #Reference 
  
@@ -138,6 +144,16 @@ $WPFbtnWindowsUpdates.Add_Click({
   Start-Process "ms-settings:windowsupdate"
 })
 
+# Tools
+
+$WPFbtnTreeSizeFree.Add_Click({ 
+  $url = "https://downloads.jam-software.de/treesize_free/TreeSizeFree-Portable.zip"
+  $zipPath = "$env:TEMP/TreeSizeFree-Portable.zip"
+  $unzipPath = "$env:TEMP/TreeSizeFree-Portable"
+  Download-Tool $url $zipPath
+  Expand-Archive -Path $zipPath -DestinationPath $unzipPath
+  Start-Process "$unzipPath/TreeSizeFree.exe"
+})
 #===========================================================================
 # Shows the form
 #===========================================================================
