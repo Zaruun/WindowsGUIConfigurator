@@ -23,6 +23,7 @@ $inputXML = @"
                     <Button x:Name="btnTaskmgr" Content="TaskMgr" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnWindowsUpdates" Content="Windows Updates" HorizontalAlignment="Left" Margin="201,116,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnSystemProperties" Content="System Properties" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnPrinters" Content="Printers" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Tools" FontSize="14">
@@ -92,6 +93,11 @@ function Download-Tool ($url, $output) {
   Invoke-WebRequest -Uri $url -OutFile $output
   }
 
+function Install-From-Winget ($appName) {
+    winget install -e -h --accept-source-agreements --accept-package-agreements --id $appName
+    
+  }
+
 #===========================================================================
 # Use this space to add code to the various form elements in your GUI
 #===========================================================================
@@ -110,8 +116,8 @@ function Download-Tool ($url, $output) {
 # })
 
 # SYSTEM / USER INFO
-$osName = $(((gcim Win32_OperatingSystem).Name).split(‘|’)[0])
-$osVersion = $(((gcim Win32_OperatingSystem).Version).split(‘|’)[0])
+$osName = $(((gcim Win32_OperatingSystem).Name).split('|')[0])
+$osVersion = $(((gcim Win32_OperatingSystem).Version).split('|')[0])
 
 $WPFlblPCName.content = $env:ComputerName
 $WPFlblOSVersion.content = "$osName ($osVersion)"
@@ -143,7 +149,9 @@ $WPFbtnTaskmgr.Add_Click({
 $WPFbtnWindowsUpdates.Add_Click({ 
   Start-Process "ms-settings:windowsupdate"
 })
-
+$WPFbtnPrinters.Add_Click({ 
+  Start-Process "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}"
+})
 # Tools
 
 $WPFbtnTreeSizeFree.Add_Click({ 
@@ -154,6 +162,20 @@ $WPFbtnTreeSizeFree.Add_Click({
   Expand-Archive -Path $zipPath -DestinationPath $unzipPath
   Start-Process "$unzipPath/TreeSizeFree.exe"
 })
+
+$WPFbtnWindowsTerminal.Add_Click({ 
+  Install-From-Winget "Microsoft.WindowsTerminal"
+    # Install-From-Winget "Notepad++.Notepad++"
+})
+
+$WPFbtnPowershell.Add_Click({
+  Install-From-Winget "Microsoft.PowerShell"
+})
+
+$WPFbtnWSL.Add_Click({
+  wsl --install
+})
+
 #===========================================================================
 # Shows the form
 #===========================================================================

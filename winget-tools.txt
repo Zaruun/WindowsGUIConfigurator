@@ -1,0 +1,10 @@
+7zip.7zip
+Notepad++.Notepad++
+Microsoft.VisualStudioCode
+BraveSoftware.BraveBrowser
+Google.Chrome
+Mozilla.Firefox
+VideoLAN.VLC
+WinSCP.WinSCP
+WireGuard.WireGuard
+Microsoft.PowerToys
