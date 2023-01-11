@@ -36,7 +36,8 @@ $inputXML = @"
             </TabItem>
             <TabItem Header="Quick Settings" FontSize="14">
                 <Grid Background="#FFE5E5E5">
-                    <Button x:Name="btSetting1" Content="Setting 1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnDisableFastStartup" Content="Disable Fast Startup" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnEnableFastStartup" Content="Enable Fast Startup" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -49,7 +50,7 @@ $inputXML = @"
         </GroupBox>
 
 
-        <Label x:Name="lblUpdates" Content="" HorizontalAlignment="Left" Margin="279,38,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblUpdates" Content="System is Up to date" HorizontalAlignment="Left" Margin="279,38,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btnCheckUpdates" Content="Check Updates" HorizontalAlignment="Left" Margin="288,82,0,0" VerticalAlignment="Top" FontSize="14" Width="100" Height="30"/>
         <Button x:Name="btnInstallUpdates" Content="Install Updates" HorizontalAlignment="Left" Margin="415,82,0,0" VerticalAlignment="Top" FontSize="14" Width="100" Height="30"/>
     </Grid>
@@ -106,6 +107,10 @@ function Install-From-Winget ($appName)
   winget install -e -h --accept-source-agreements --accept-package-agreements --id $appName
     
 }
+
+function MsgBox ($msg) {
+    [System.Windows.MessageBox]::Show("$msg")
+  }
 
 #===========================================================================
 # Use this space to add code to the various form elements in your GUI
@@ -183,6 +188,7 @@ $WPFbtnWindowsUpdates.Add_Click({
 $WPFbtnPrinters.Add_Click({ 
     Start-Process "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}"
   })
+
 # Tools
 
 $WPFbtnTreeSizeFree.Add_Click({ 
@@ -196,7 +202,6 @@ $WPFbtnTreeSizeFree.Add_Click({
 
 $WPFbtnWindowsTerminal.Add_Click({ 
     Install-From-Winget "Microsoft.WindowsTerminal"
-    # Install-From-Winget "Notepad++.Notepad++"
   })
 
 $WPFbtnPowershell.Add_Click({
@@ -204,7 +209,19 @@ $WPFbtnPowershell.Add_Click({
   })
 
 $WPFbtnWSL.Add_Click({
-    wsl --install
+    Start-Process powershell "wsl --install Ubuntu"
+  })
+
+# Quick settings section
+
+$WPFbtnDisableFastStartup.Add_Click({
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 0
+    MsgBox "Fast Startup Disabled"
+  })
+
+$WPFbtnEnableFastStartup.Add_Click({
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 1
+        MsgBox "Fast Startup Enabled"
   })
 
 #===========================================================================

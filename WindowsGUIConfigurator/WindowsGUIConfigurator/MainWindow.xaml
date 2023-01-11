@@ -34,7 +34,8 @@
             </TabItem>
             <TabItem Header="Quick Settings" FontSize="14">
                 <Grid Background="#FFE5E5E5">
-                    <Button x:Name="btSetting1" Content="Setting 1" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnDisableFastStartup" Content="Disable Fast Startup" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnEnableFastStartup" Content="Enable Fast Startup" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
         </TabControl>
