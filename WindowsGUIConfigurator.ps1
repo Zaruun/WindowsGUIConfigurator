@@ -49,7 +49,7 @@ $inputXML = @"
         </GroupBox>
 
 
-        <Label x:Name="lblUpdates" Content="System is Up to date" HorizontalAlignment="Left" Margin="279,38,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblUpdates" Content="" HorizontalAlignment="Left" Margin="279,38,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btnCheckUpdates" Content="Check Updates" HorizontalAlignment="Left" Margin="288,82,0,0" VerticalAlignment="Top" FontSize="14" Width="100" Height="30"/>
         <Button x:Name="btnInstallUpdates" Content="Install Updates" HorizontalAlignment="Left" Margin="415,82,0,0" VerticalAlignment="Top" FontSize="14" Width="100" Height="30"/>
     </Grid>
@@ -62,12 +62,13 @@ $inputXML = $inputXML -replace 'mc:Ignorable="d"','' -replace "x:N",'N' -replace
 #Read XAML
  
 $reader=(New-Object System.Xml.XmlNodeReader $xaml)
-try{
-    $Form=[Windows.Markup.XamlReader]::Load( $reader )
-}
-catch{
-    Write-Warning "Unable to parse XML, with error: $($Error[0])`n Ensure that there are NO SelectionChanged or TextChanged properties in your textboxes (PowerShell cannot process them)"
-    throw
+try
+{
+  $Form=[Windows.Markup.XamlReader]::Load( $reader )
+} catch
+{
+  Write-Warning "Unable to parse XML, with error: $($Error[0])`n Ensure that there are NO SelectionChanged or TextChanged properties in your textboxes (PowerShell cannot process them)"
+  throw
 }
  
 #===========================================================================
@@ -75,28 +76,36 @@ catch{
 #===========================================================================
   
 $xaml.SelectNodes("//*[@Name]") | %{"trying item $($_.Name)";
-    try {Set-Variable -Name "WPF$($_.Name)" -Value $Form.FindName($_.Name) -ErrorAction Stop}
-    catch{throw}
-    }
+  try
+  {Set-Variable -Name "WPF$($_.Name)" -Value $Form.FindName($_.Name) -ErrorAction Stop
+  } catch
+  {throw
+  }
+}
  
-Function Get-FormVariables{
-if ($global:ReadmeDisplay -ne $true){Write-host "If you need to reference this display again, run Get-FormVariables" -ForegroundColor Yellow;$global:ReadmeDisplay=$true}
-write-host "Found the following interactable elements from our form" -ForegroundColor Cyan
-get-variable WPF*
+Function Get-FormVariables
+{
+  if ($global:ReadmeDisplay -ne $true)
+  {Write-host "If you need to reference this display again, run Get-FormVariables" -ForegroundColor Yellow;$global:ReadmeDisplay=$true
+  }
+  write-host "Found the following interactable elements from our form" -ForegroundColor Cyan
+  get-variable WPF*
 }
  
 Get-FormVariables
  
 # FUNCTIONS
 
-function Download-Tool ($url, $output) {
+function Download-Tool ($url, $output)
+{
   Invoke-WebRequest -Uri $url -OutFile $output
-  }
+}
 
-function Install-From-Winget ($appName) {
-    winget install -e -h --accept-source-agreements --accept-package-agreements --id $appName
+function Install-From-Winget ($appName)
+{
+  winget install -e -h --accept-source-agreements --accept-package-agreements --id $appName
     
-  }
+}
 
 #===========================================================================
 # Use this space to add code to the various form elements in your GUI
@@ -106,10 +115,10 @@ function Install-From-Winget ($appName) {
 #Reference 
  
 #Adding items to a dropdown/combo box
-    #$vmpicklistView.items.Add([pscustomobject]@{'VMName'=($_).Name;Status=$_.Status;Other="Yes"})
+#$vmpicklistView.items.Add([pscustomobject]@{'VMName'=($_).Name;Status=$_.Status;Other="Yes"})
      
 #Setting the text of a text box to the current PC name    
-    #$WPFtextBox.Text = $env:COMPUTERNAME
+#$WPFtextBox.Text = $env:COMPUTERNAME
      
 #Adding code to a button, so that when clicked, it pings a system
 # $WPFbutton.Add_Click({ Test-connection -count 1 -ComputerName $WPFtextBox.Text
@@ -123,58 +132,80 @@ $WPFlblPCName.content = $env:ComputerName
 $WPFlblOSVersion.content = "$osName ($osVersion)"
 $WPFlblUser.content = "$env:UserDomain\$env:UserName"
 
+# Updates section
+
+$WPFbtnCheckUpdates.Add_Click({
+    if (Get-Module -ListAvailable -Name PSWindowsUpdate)
+    {
+      if ((Get-WindowsUpdate).count -eq 0)
+      {
+        $WPFlblUpdates.content = "No updates available." 
+      } else
+      {
+        $WPFlblUpdates.content = "Updates panding to install."
+      }
+    } else 
+    {
+      $WPFlblUpdates.content = "PSWindowsUpdate module is not installed."
+    }
+  })
+
+$WPFbtnInstallUpdates.Add_Click({
+    Start-Process powershell "Get-WindowsUpdate ; Install-WindowsUpdate"  
+  })
+
 # Quick Access section
 
 $WPFbtnSystem.Add_Click({ 
-  Start-Process "ms-settings:about"
-})
+    Start-Process "ms-settings:about"
+  })
 $WPFbtnSystemProperties.Add_Click({ 
-  Start-Process "sysdm.cpl"
-})
+    Start-Process "sysdm.cpl"
+  })
 $WPFbtnControlPanel.Add_Click({ 
-  Start-Process "control"
-})
+    Start-Process "control"
+  })
 $WPFbtnPowerMgmt.Add_Click({ 
-  Start-Process "powercfg.cpl"
-})
+    Start-Process "powercfg.cpl"
+  })
 $WPFbtnNetworkInfo.Add_Click({ 
-  Start-Process "control" -ArgumentList "/name Microsoft.NetworkAndSharingCenter"
+    Start-Process "control" -ArgumentList "/name Microsoft.NetworkAndSharingCenter"
   })
 $WPFbtnNetworkInterfaces.Add_Click({ 
-  Start-Process "ncpa.cpl"
-})
+    Start-Process "ncpa.cpl"
+  })
 $WPFbtnTaskmgr.Add_Click({ 
-  Start-Process "taskmgr"
-})
+    Start-Process "taskmgr"
+  })
 $WPFbtnWindowsUpdates.Add_Click({ 
-  Start-Process "ms-settings:windowsupdate"
-})
+    Start-Process "ms-settings:windowsupdate"
+  })
 $WPFbtnPrinters.Add_Click({ 
-  Start-Process "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}"
-})
+    Start-Process "shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}"
+  })
 # Tools
 
 $WPFbtnTreeSizeFree.Add_Click({ 
-  $url = "https://downloads.jam-software.de/treesize_free/TreeSizeFree-Portable.zip"
-  $zipPath = "$env:TEMP/TreeSizeFree-Portable.zip"
-  $unzipPath = "$env:TEMP/TreeSizeFree-Portable"
-  Download-Tool $url $zipPath
-  Expand-Archive -Path $zipPath -DestinationPath $unzipPath
-  Start-Process "$unzipPath/TreeSizeFree.exe"
-})
+    $url = "https://downloads.jam-software.de/treesize_free/TreeSizeFree-Portable.zip"
+    $zipPath = "$env:TEMP/TreeSizeFree-Portable.zip"
+    $unzipPath = "$env:TEMP/TreeSizeFree-Portable"
+    Download-Tool $url $zipPath
+    Expand-Archive -Path $zipPath -DestinationPath $unzipPath
+    Start-Process "$unzipPath/TreeSizeFree.exe"
+  })
 
 $WPFbtnWindowsTerminal.Add_Click({ 
-  Install-From-Winget "Microsoft.WindowsTerminal"
+    Install-From-Winget "Microsoft.WindowsTerminal"
     # Install-From-Winget "Notepad++.Notepad++"
-})
+  })
 
 $WPFbtnPowershell.Add_Click({
-  Install-From-Winget "Microsoft.PowerShell"
-})
+    Install-From-Winget "Microsoft.PowerShell"
+  })
 
 $WPFbtnWSL.Add_Click({
-  wsl --install
-})
+    wsl --install
+  })
 
 #===========================================================================
 # Shows the form
