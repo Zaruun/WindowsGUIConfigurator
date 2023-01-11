@@ -30,6 +30,7 @@
                     <Button x:Name="btnWindowsTerminal" Content="Windows Terminal" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnPowershell" Content="PowerShell 7" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnWSL" Content="WSL and Ubuntu" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnTeamViewerQS" Content="TeamViewerQS" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Quick Settings" FontSize="14">

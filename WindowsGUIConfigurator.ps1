@@ -32,6 +32,7 @@ $inputXML = @"
                     <Button x:Name="btnWindowsTerminal" Content="Windows Terminal" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnPowershell" Content="PowerShell 7" HorizontalAlignment="Left" Margin="10,82,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnWSL" Content="WSL and Ubuntu" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnTeamViewerQS" Content="TeamViewerQS" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Quick Settings" FontSize="14">
@@ -108,9 +109,10 @@ function Install-From-Winget ($appName)
     
 }
 
-function MsgBox ($msg) {
-    [System.Windows.MessageBox]::Show("$msg")
-  }
+function MsgBox ($msg)
+{
+  [System.Windows.MessageBox]::Show("$msg")
+}
 
 #===========================================================================
 # Use this space to add code to the various form elements in your GUI
@@ -212,6 +214,13 @@ $WPFbtnWSL.Add_Click({
     Start-Process powershell "wsl --install Ubuntu"
   })
 
+$WPFbtnTeamViewerQS.Add_Click({
+    $url = "https://download.teamviewer.com/download/TeamViewerQS.exe"
+    $Path = "$env:TEMP/TeamViewerQS.exe"
+    Download-Tool $url $Path
+    Start-Process "$Path"
+  })
+
 # Quick settings section
 
 $WPFbtnDisableFastStartup.Add_Click({
@@ -221,7 +230,7 @@ $WPFbtnDisableFastStartup.Add_Click({
 
 $WPFbtnEnableFastStartup.Add_Click({
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 1
-        MsgBox "Fast Startup Enabled"
+    MsgBox "Fast Startup Enabled"
   })
 
 #===========================================================================
