@@ -12,7 +12,7 @@ $inputXML = @"
         <Grid.ColumnDefinitions>
 
         </Grid.ColumnDefinitions>
-        <TabControl HorizontalAlignment="Left" Height="363" Margin="15,164,0,0" VerticalAlignment="Top" Width="517">
+        <TabControl HorizontalAlignment="Left" Height="364" Margin="15,164,0,0" VerticalAlignment="Top" Width="517">
             <TabItem Header="Quick Access" FontSize="14">
                 <Grid Background="#FFE5E5E5">
                     <Button x:Name="btnControlPanel" Content="Control Panel" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
@@ -39,6 +39,20 @@ $inputXML = @"
                 <Grid Background="#FFE5E5E5">
                     <Button x:Name="btnDisableFastStartup" Content="Disable Fast Startup" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                     <Button x:Name="btnEnableFastStartup" Content="Enable Fast Startup" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Scripts" FontSize="14">
+                <Grid Background="#FFE5E5E5">
+                    <Button x:Name="btnRefreshNetwork" Content="Refresh Network and DNS" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnCleanTEMP" Content="Clean TEMP" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Security" FontSize="14">
+                <Grid Background="#FFE5E5E5">
+                    <Button x:Name="btnMRT" Content="MRT" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnESETOnline" Content="ESET Online" HorizontalAlignment="Left" Margin="201,10,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnMalwarebytes" Content="Malwarebytes" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
+                    <Button x:Name="btnVirustotal" Content="Virustotal" HorizontalAlignment="Left" Margin="201,45,0,0" VerticalAlignment="Top" Width="181" Height="30" FontSize="14"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -231,6 +245,20 @@ $WPFbtnDisableFastStartup.Add_Click({
 $WPFbtnEnableFastStartup.Add_Click({
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 1
     MsgBox "Fast Startup Enabled"
+  })
+
+# Scripts section
+
+
+
+# Security section
+
+$WPFbtnMRT.Add_Click({
+    Start-Process MRT
+  })
+
+$WPFbtnVirustotal.Add_Click({
+    Start-Process "https://www.virustotal.com/gui/home/upload"  
   })
 
 #===========================================================================
