@@ -153,7 +153,7 @@ $WPFlblPCName.content = $env:ComputerName
 $WPFlblOSVersion.content = "$osName ($osVersion)"
 $WPFlblUser.content = "$env:UserDomain\$env:UserName"
 
-$WPFlblUpdates.content = "Please check updates.."
+$WPFlblUpdates.content = "Please check updates."
 # Updates section
 
 $WPFbtnCheckUpdates.Add_Click({
@@ -239,7 +239,8 @@ $WPFbtnTeamViewerQS.Add_Click({
 # Quick settings section
 
 $WPFbtnDisableFastStartup.Add_Click({
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 0
+    # Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 0
+    Start-Process powershell -Verb runAs "Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -Name HiberbootEnabled -Value 0"
     MsgBox "Fast Startup Disabled"
   })
 
