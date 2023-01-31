@@ -153,6 +153,7 @@ $WPFlblPCName.content = $env:ComputerName
 $WPFlblOSVersion.content = "$osName ($osVersion)"
 $WPFlblUser.content = "$env:UserDomain\$env:UserName"
 
+$WPFlblUpdates.content = "Please check updates."
 # Updates section
 
 $WPFbtnCheckUpdates.Add_Click({
@@ -249,12 +250,22 @@ $WPFbtnEnableFastStartup.Add_Click({
 
 # Scripts section
 
+$WPFbtnRefreshNetwork.Add_Click({
+    # Start-Process -FilePath "C:\Windows\System32\cmd.exe" -verb runas -ArgumentList {/c ipconfig /release} 
+  })
 
 
 # Security section
 
 $WPFbtnMRT.Add_Click({
     Start-Process MRT
+  })
+
+$WPFbtnESETOnline.Add_Click({
+    $url = "https://download.eset.com/com/eset/tools/online_scanner/latest/esetonlinescanner_plk.exe"
+    $exePath = "$env:TEMP/esetonlinescanner_plk.exe"
+    Download-Tool $url $exePath
+    Start-Process "$exePath"
   })
 
 $WPFbtnVirustotal.Add_Click({
