@@ -153,7 +153,7 @@ $WPFlblPCName.content = $env:ComputerName
 $WPFlblOSVersion.content = "$osName ($osVersion)"
 $WPFlblUser.content = "$env:UserDomain\$env:UserName"
 
-$WPFlblUpdates.content = "Please check updates."
+$WPFlblUpdates.content = "Please check updates.."
 # Updates section
 
 $WPFbtnCheckUpdates.Add_Click({
