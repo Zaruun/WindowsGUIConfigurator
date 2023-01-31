@@ -239,13 +239,12 @@ $WPFbtnTeamViewerQS.Add_Click({
 # Quick settings section
 
 $WPFbtnDisableFastStartup.Add_Click({
-    # Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 0
     Start-Process powershell -Verb runAs "Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -Name HiberbootEnabled -Value 0"
     MsgBox "Fast Startup Disabled"
   })
 
 $WPFbtnEnableFastStartup.Add_Click({
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power" -Name HiberbootEnabled -Value 1
+    Start-Process powershell -Verb runAs "Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -Name HiberbootEnabled -Value 1"
     MsgBox "Fast Startup Enabled"
   })
 
