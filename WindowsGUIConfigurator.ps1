@@ -251,9 +251,12 @@ $WPFbtnEnableFastStartup.Add_Click({
 # Scripts section
 
 $WPFbtnRefreshNetwork.Add_Click({
-    # Start-Process -FilePath "C:\Windows\System32\cmd.exe" -verb runas -ArgumentList {/c ipconfig /release} 
+    Start-Process powershell -Verb runAs "ipconfig /release; ipconfig /flushdns; ipconfig /renew"
   })
 
+$WPFbtnCleanTEMP.Add_Click({
+    Start-Process powershell "Get-ChildItem -Path $env:TEMP *.* -Recurse | Remove-Item -Force -Recurse"
+  })
 
 # Security section
 
